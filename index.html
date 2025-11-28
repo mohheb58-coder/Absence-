@@ -44,6 +44,53 @@
     
     .form-page { padding: 30px 20px; }
     .form-container { background: white; border-radius: 15px; padding: 30px; max-width: 1000px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    
+    /* هدر جدید با دو عکس شهیدان */
+    .school-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .martyrs-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #667eea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .martyrs-image.left {
+      order: 1;
+    }
+    .martyrs-image.right {
+      order: 3;
+    }
+    .school-title-container {
+      order: 2;
+      text-align: center;
+      flex-grow: 1;
+      padding: 0 20px;
+    }
+    .school-title {
+      color: #667eea;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .school-subtitle {
+      color: #333;
+      font-size: 16px;
+      margin: 5px 0 0 0;
+    }
+    
     .form-header { border-bottom: 2px solid #f0f0f0; padding-bottom: 20px; margin-bottom: 25px; }
     .form-title { color: #667eea; font-size: 24px; font-weight: 700; margin: 0; }
     .form-counter { background: #667eea; color: white; padding: 8px 16px; border-radius: 15px; font-size: 13px; display: inline-block; }
@@ -80,22 +127,49 @@
       }
       .form-header { display: none; }
       
-      /* هدر جدید برای چاپ */
-      .print-header {
-        text-align: center;
+      /* هدر چاپ با دو عکس شهیدان */
+      .school-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         margin-bottom: 15px;
         padding-bottom: 10px;
         border-bottom: 2px solid #000;
+        display: flex !important;
       }
-      .print-header h1 {
+      .martyrs-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .martyrs-image.left {
+        order: 1;
+      }
+      .martyrs-image.right {
+        order: 3;
+      }
+      .school-title-container {
+        order: 2;
+        text-align: center;
+        flex-grow: 1;
+        padding: 0 15px;
+      }
+      .school-title {
         font-size: 16px;
         font-weight: bold;
         margin: 0;
       }
-      .print-header h2 {
-        font-size: 14px;
-        margin: 5px 0 0 0;
-        color: #333;
+      .school-subtitle {
+        font-size: 12px;
+        margin: 3px 0 0 0;
       }
       
       .card-section { 
@@ -177,6 +251,28 @@
     @media (max-width: 768px) {
       .form-group-row { grid-template-columns: 1fr; }
       .buttons-group { grid-template-columns: repeat(2, 1fr); }
+      .martyrs-image {
+        width: 80px;
+        height: 80px;
+      }
+      .school-title {
+        font-size: 18px;
+      }
+      .school-subtitle {
+        font-size: 14px;
+      }
+    }
+    @media (max-width: 576px) {
+      .school-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .martyrs-image {
+        margin-bottom: 10px;
+      }
+      .school-title-container {
+        padding: 10px 0;
+      }
     }
   </style>
 </head>
@@ -221,9 +317,26 @@
   <!-- صفحه فرم معلم -->
   <div id="teacherFormPage" class="page form-page">
     <div class="form-container">
-      <div class="form-header">
-        <h2 class="form-title">فرم اطلاعات پرسنلی</h2>
+      <!-- هدر جدید با دو عکس شهیدان -->
+      <div class="school-header">
+        <div class="martyrs-image left">
+          <img src="https://i.imgur.com/eCxFZCM.jpeg" 
+               alt="شهید نیاسری" 
+               style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+        </div>
+        
+        <div class="school-title-container">
+          <h1 class="school-title">مدرسه شهیدان نیاسری 1</h1>
+          <p class="school-subtitle">فرم اطلاعات پرسنلی</p>
+        </div>
+        
+        <div class="martyrs-image right">
+          <img src="https://i.imgur.com/VAsoxgf.jpeg" 
+               alt="شهید نیاسری" 
+               style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+        </div>
       </div>
+      
       <form id="teacherForm" onsubmit="submitTeacherForm(event)">
         <!-- مشخصات هویتی -->
         <div class="card-section">
@@ -316,6 +429,26 @@
   <!-- صفحه فرم مدیر -->
   <div id="adminFormPage" class="page form-page">
     <div class="form-container">
+      <!-- هدر جدید با دو عکس شهیدان -->
+      <div class="school-header">
+        <div class="martyrs-image left">
+          <img src="https://i.imgur.com/eCxFZCM.jpeg" 
+               alt="شهید نیاسری" 
+               style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+        </div>
+        
+        <div class="school-title-container">
+          <h1 class="school-title">مدرسه شهیدان نیاسری 1</h1>
+          <p class="school-subtitle">فرم اطلاعات پرسنلی</p>
+        </div>
+        
+        <div class="martyrs-image right">
+          <img src="https://i.imgur.com/VAsoxgf.jpeg" 
+               alt="شهید نیاسری" 
+               style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+        </div>
+      </div>
+      
       <div class="form-header">
         <h2 class="form-title">فرم اطلاعات پرسنلی</h2>
         <span class="form-counter"><span id="recordCounter">–</span></span>
@@ -597,17 +730,44 @@
             body { font-size: 11px; line-height: 1.4; padding: 10px; }
             .container { border: 2px solid #000; padding: 15px; }
             .print-header {
-              text-align: center;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
               margin-bottom: 15px;
               padding-bottom: 10px;
               border-bottom: 2px solid #000;
             }
-            .print-header h1 {
+            .martyrs-image {
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              object-fit: cover;
+              border: 2px solid #000;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: #f0f0f0;
+              flex-shrink: 0;
+              overflow: hidden;
+            }
+            .martyrs-image.left {
+              order: 1;
+            }
+            .martyrs-image.right {
+              order: 3;
+            }
+            .school-title-container {
+              order: 2;
+              text-align: center;
+              flex-grow: 1;
+              padding: 0 15px;
+            }
+            .school-title {
               font-size: 18px;
               font-weight: bold;
               margin: 0;
             }
-            .print-header h2 {
+            .school-subtitle {
               font-size: 14px;
               margin: 5px 0 0 0;
               color: #333;
@@ -639,8 +799,22 @@
         <body>
         <div class="container">
           <div class="print-header">
-            <h1>فرم مشخصات کارکنان مدرسه شهید نیاسری 1</h1>
-            <h2>فرم اطلاعات پرسنلی</h2>
+            <div class="martyrs-image left">
+              <img src="https://i.imgur.com/eCxFZCM.jpeg" 
+                   alt="شهید نیاسری" 
+                   style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+            </div>
+            
+            <div class="school-title-container">
+              <h1 class="school-title">مدرسه شهیدان نیاسری 1</h1>
+              <h2 class="school-subtitle">فرم اطلاعات پرسنلی</h2>
+            </div>
+            
+            <div class="martyrs-image right">
+              <img src="https://i.imgur.com/VAsoxgf.jpeg" 
+                   alt="شهید نیاسری" 
+                   style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+            </div>
           </div>
           <div class="row">
             <div class="field"><div class="field-label">نام</div><div class="field-value">${data.firstName || ''}</div></div>
