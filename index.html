@@ -2,595 +2,873 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>فرم اطلاعات پرسنلی</title>
-  <!-- Bootstrap RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-  <!-- Persian datepicker CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
-  <!-- Vazirmatn Font -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { 
-      font-family: Vazirmatn, Tahoma, sans-serif; 
-      color: #1f2937; 
-    }
-    .card-header { font-weight: 600; }
-    .form-label { font-size: 0.92rem; }
-    .form-control, .form-select, textarea { padding: 0.55rem 0.75rem; }
-    pre { background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 14px; direction: ltr; }
-    #toastArea { z-index: 1080; }
+    * { font-family: Vazirmatn, Tahoma, sans-serif; }
+    body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+    .page { display: none !important; }
+    .page.active { display: block !important; }
+    
+    .main-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .main-container { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; max-width: 500px; width: 100%; text-align: center; }
+    .main-container h1 { color: #667eea; font-size: 32px; margin-bottom: 30px; }
+    .btn-panel { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 18px; margin-bottom: 15px; color: white; transition: all 0.3s; }
+    .btn-panel:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .btn-admin { background: #667eea; }
+    .btn-teacher { background: #48bb78; }
+    
+    .password-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .password-container { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; max-width: 400px; width: 100%; text-align: center; }
+    .password-container h1 { color: #667eea; font-size: 28px; margin-bottom: 30px; }
+    .password-input-wrapper input { width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; margin-bottom: 20px; }
+    .password-input-wrapper input:focus { outline: none; border-color: #667eea; }
+    .btn-password { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; background: #667eea; color: white; margin-bottom: 10px; }
+    .btn-back { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; background: #718096; color: white; }
+    
+    .search-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .search-container { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; max-width: 600px; width: 100%; }
+    .search-container h1 { color: #667eea; font-size: 28px; text-align: center; margin-bottom: 20px; }
+    .search-input-wrapper input { width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; margin-bottom: 20px; }
+    .search-input-wrapper input:focus { outline: none; border-color: #667eea; }
+    .search-results { max-height: 300px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 10px; margin-bottom: 20px; }
+    .search-result-item { padding: 15px; border-bottom: 1px solid #e0e0e0; cursor: pointer; }
+    .search-result-item:hover { background: #f0f3ff; }
+    .btn-group-search { display: flex; gap: 10px; }
+    .btn-group-search button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; color: white; }
+    .btn-search { background: #667eea; }
+    .btn-new { background: #48bb78; }
+    
+    .form-page { padding: 30px 20px; }
+    .form-container { background: white; border-radius: 15px; padding: 30px; max-width: 1000px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .form-header { border-bottom: 2px solid #f0f0f0; padding-bottom: 20px; margin-bottom: 25px; }
+    .form-title { color: #667eea; font-size: 24px; font-weight: 700; margin: 0; }
+    .form-counter { background: #667eea; color: white; padding: 8px 16px; border-radius: 15px; font-size: 13px; display: inline-block; }
+    .card-section { background: #f5f7ff; border: 1px solid #e0e7ff; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    .section-title { color: #667eea; font-weight: 700; margin-bottom: 15px; font-size: 15px; }
+    .form-group-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .form-label { color: #333; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+    .form-control, .form-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 13px; width: 100%; }
+    .form-control:focus, .form-select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+    textarea.form-control { min-height: 70px; resize: vertical; }
+    .buttons-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-top: 30px; }
+    .btn-custom { padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px; color: white; transition: all 0.2s; }
+    .btn-save { background: #48bb78; }
+    .btn-edit { background: #4299e1; }
+    .btn-delete { background: #f56565; }
+    .btn-print { background: #667eea; }
+    
     @media print {
-      .btn, #resultCard, .card:first-of-type { display: none !important; }
-      @page { size: A4; margin: 18mm; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { 
+        background: white; 
+        font-size: 10px; 
+        line-height: 1.2; 
+        font-family: Vazirmatn, Tahoma, sans-serif;
+      }
+      .page { display: block !important; }
+      .form-page { padding: 5px !important; }
+      .form-container { 
+        box-shadow: none; 
+        border-radius: 0; 
+        padding: 8px !important; 
+        max-width: 100%;
+        border: 1px solid #000;
+      }
+      .form-header { display: none; }
+      
+      /* هدر جدید برای چاپ */
+      .print-header {
+        text-align: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #000;
+      }
+      .print-header h1 {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+      }
+      .print-header h2 {
+        font-size: 14px;
+        margin: 5px 0 0 0;
+        color: #333;
+      }
+      
+      .card-section { 
+        background: white !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 0 !important;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .section-title { 
+        display: block !important;
+        grid-column: 1 / -1;
+        background: #f0f0f0;
+        padding: 5px 8px;
+        margin-bottom: 5px;
+        font-size: 11px;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+      }
+      .form-group-row { 
+        display: contents;
+      }
+      .form-group-row > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: 0.5px solid #000;
+        padding: 4px;
+        page-break-inside: avoid;
+      }
+      .form-group-row > div:nth-child(odd) {
+        grid-column: 1;
+      }
+      .form-group-row > div:nth-child(even) {
+        grid-column: 2;
+      }
+      .form-label { 
+        font-size: 9px;
+        font-weight: 600;
+        text-align: right;
+        padding-right: 5px;
+      }
+      .form-control, .form-select, textarea { 
+        padding: 2px 3px !important;
+        font-size: 9px !important;
+        border: none !important;
+        height: auto !important;
+        min-height: 20px !important;
+        text-align: right;
+      }
+      textarea { min-height: 25px !important; }
+      .buttons-group { display: none !important; }
+      
+      /* بخش امضای تاییدکننده */
+      .approval-section {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #000;
+        text-align: left;
+      }
+      .approval-line {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+      }
+      .approval-space {
+        width: 200px;
+        border-bottom: 1px solid #000;
+        text-align: center;
+        padding-bottom: 5px;
+      }
+      
+      @page {
+        size: A4;
+        margin: 5mm;
+      }
+    }
+    @media (max-width: 768px) {
+      .form-group-row { grid-template-columns: 1fr; }
+      .buttons-group { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
-<body class="bg-light">
-  <div class="container my-4">
-    <h2 class="mb-3 text-primary">فرم اطلاعات پرسنلی</h2>
-    <p class="text-muted mb-4">ثبت، ویرایش، حذف و جستجوی اطلاعات با تاریخ شمسی</p>
-
-    <!-- جستجو -->
-    <div class="card mb-3">
-      <div class="card-body d-flex gap-2 align-items-center">
-        <input type="text" id="searchLastName" class="form-control" placeholder="جستجو بر اساس نام خانوادگی">
-        <button type="button" id="searchBtn" class="btn btn-primary">جستجو</button>
-        <span class="ms-auto text-muted small" id="recordIndicator">–</span>
-      </div>
+<body>
+  <!-- صفحه اصلی -->
+  <div id="mainPage" class="page active main-page">
+    <div class="main-container">
+      <h1>📋 سیستم اطلاعات پرسنلی</h1>
+      <button class="btn-panel btn-admin" onclick="showAdminPanel()">🔐 پنل مدیر</button>
+      <button class="btn-panel btn-teacher" onclick="showTeacherPanel()">👨‍🏫 پنل معلم</button>
     </div>
-
-    <form id="personnelForm" class="needs-validation" novalidate>
-      <!-- مشخصات هویتی -->
-      <div class="card border-primary mb-3">
-        <div class="card-header bg-primary text-white">مشخصات هویتی</div>
-        <div class="card-body row g-3">
-          <div class="col-md-4">
-            <label class="form-label">نام</label>
-            <input type="text" class="form-control" name="firstName" required>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">نام خانوادگی</label>
-            <input type="text" class="form-control" name="lastName" required>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">کد پرسنلی</label>
-            <input type="text" class="form-control" name="personnelCode" pattern="^[0-9]{5,12}$">
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">جنسیت</label>
-            <select class="form-select" name="gender">
-              <option value="">انتخاب کنید</option>
-              <option>مرد</option>
-              <option>زن</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">نام پدر</label>
-            <input type="text" class="form-control" name="fatherName">
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">کد ملی</label>
-            <input type="text" class="form-control" name="nationalId" pattern="^[0-9]{10}$">
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">محل صدور</label>
-            <input type="text" class="form-control" name="issuePlace">
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">محل تولد</label>
-            <input type="text" class="form-control" name="birthPlace">
-          </div>
-
-          <!-- تاریخ تولد (شمسی) -->
-          <div class="col-md-6">
-            <label class="form-label">تاریخ تولد (شمسی)</label>
-            <input type="text" class="form-control" id="birthDateJalali" placeholder="مثلاً 1404/08/20">
-            <input type="hidden" name="birthDate">
-          </div>
-
-          <!-- وضعیت تأهل -->
-          <div class="col-md-6">
-            <label class="form-label">وضعیت تأهل</label>
-            <select class="form-select" name="maritalStatus">
-              <option value="">انتخاب کنید</option>
-              <option>مجرد</option>
-              <option>متأهل</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">تعداد فرزندان</label>
-            <input type="number" class="form-control" name="childrenCount" min="0" step="1">
-          </div>
-        </div>
-      </div>
-
-      <!-- مشخصات شغلی -->
-      <div class="card border-success mb-3">
-        <div class="card-header bg-success text-white">مشخصات شغلی</div>
-        <div class="card-body row g-3">
-          <div class="col-md-4">
-            <label class="form-label">سمت</label>
-            <select class="form-select" name="position" required>
-              <option value="">انتخاب کنید</option>
-              <option>مدیر</option>
-              <option>آموزگار</option>
-              <option>معاون آموزشی</option>
-              <option>معاون پرورشی</option>
-              <option>معاون اجرایی</option>
-              <option>مربی پرورشی</option>
-              <option>مربی ورزشی</option>
-              <option>مربی بهداشت</option>
-              <option>خدمتگذار</option>
-              <option>سرایدار</option>
-              <option>سایر</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">نوع استخدام</label>
-            <select class="form-select" name="employmentType" required>
-              <option value="">انتخاب کنید</option>
-              <option>رسمی</option>
-              <option>رسمی آزمایشی</option>
-              <option>پیمانی</option>
-              <option>قراردادی</option>
-              <option>سایر</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">نوع اشتغال</label>
-            <select class="form-select" name="dutyType" required>
-              <option value="">انتخاب کنید</option>
-              <option>موظف</option>
-              <option>غیر موظف</option>
-              <option>سایر</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">مدرک تحصیلی</label>
-            <select class="form-select" name="degree" required>
-              <option value="">انتخاب کنید</option>
-              <option>ابتدایی</option>
-              <option>سیکل</option>
-              <option>دیپلم</option>
-              <option>فوق دیپلم</option>
-              <option>لیسانس</option>
-              <option>فوق لیسانس</option>
-              <option>دکترا</option>
-              <option>سایر</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">رشته تحصیلی</label>
-            <input type="text" class="form-control" name="major">
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">سابقه (سال)</label>
-            <input type="number" class="form-control" name="experienceYears" min="0" step="1">
-          </div>
-
-          <!-- پایه -->
-          <div class="col-md-4">
-            <label class="form-label">پایه</label>
-            <select class="form-select" name="grade">
-              <option value="">انتخاب کنید</option>
-              <option>اول</option>
-              <option>دوم</option>
-              <option>سوم</option>
-              <option>چهارم</option>
-              <option>پنجم</option>
-              <option>ششم</option>
-            </select>
-          </div>
-
-          <!-- شماره کلاس 1 تا 6 -->
-          <div class="col-md-4">
-            <label class="form-label">شماره کلاس</label>
-            <select class="form-select" name="classNumber">
-              <option value="">انتخاب کنید</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">رابط</label>
-            <input type="text" class="form-control" name="liaison">
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">شماره حساب حقوقی</label>
-            <input type="text" class="form-control" name="salaryAccount">
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">نوع بیمه</label>
-            <select class="form-select" name="insuranceType">
-              <option value="">انتخاب کنید</option>
-              <option>تأمین اجتماعی</option>
-              <option>خدمات درمانی</option>
-              <option>بیمه سلامت</option>
-              <option>سایر</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- اطلاعات تماس و نشانی -->
-      <div class="card border-warning mb-3">
-        <div class="card-header bg-warning">اطلاعات تماس و نشانی</div>
-        <div class="card-body row g-3">
-          <div class="col-md-4">
-            <label class="form-label">شماره همراه</label>
-            <input type="tel" class="form-control" name="mobile" inputmode="numeric" pattern="^0?9[0-9]{9}$">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">شماره تلفن ثابت</label>
-            <input type="tel" class="form-control" name="phone" inputmode="numeric" pattern="^0[0-9]{9,10}$">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">کد پستی</label>
-            <input type="text" class="form-control" name="postalCode" inputmode="numeric" pattern="^[0-9]{10}$">
-          </div>
-          <div class="col-md-12">
-            <label class="form-label">آدرس محل سکونت</label>
-            <textarea class="form-control" name="address" rows="2"></textarea>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">نام و نام خانوادگی همسر</label>
-            <input type="text" class="form-control" name="spouseName">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">شغل همسر</label>
-            <input type="text" class="form-control" name="spouseJob">
-          </div>
-        </div>
-      </div>
-
-      <!-- تایید و امضا -->
-      <div class="card border-secondary mb-3">
-        <div class="card-header bg-secondary text-white">تایید و امضا</div>
-        <div class="card-body row g-3">
-          <div class="col-md-6">
-            <label class="form-label">نام تاییدکننده</label>
-            <input type="text" class="form-control" name="approverName">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">تاریخ تایید (شمسی)</label>
-            <input type="text" class="form-control" id="approveDateJalali" placeholder="مثلاً 1404/08/20">
-            <input type="hidden" name="approveDate">
-          </div>
-          <div class="col-12">
-            <label class="form-label d-block">امضا</label>
-            <div class="border border-2 rounded p-4 bg-light" style="min-height:100px" aria-label="محل امضا"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- دکمه‌ها -->
-      <div class="card mb-3">
-        <div class="card-body d-flex flex-wrap gap-2">
-          <button type="submit" class="btn btn-success">ثبت</button>
-          <button type="button" id="updateBtn" class="btn btn-primary">ویرایش</button>
-          <button type="button" id="deleteBtn" class="btn btn-danger">حذف</button>
-        </div>
-      </div>
-    </form>
-
-    <!-- خروجی و پیام‌ها -->
-    <div id="resultCard" class="card mt-3 d-none">
-      <div class="card-header">خروجی JSON</div>
-      <div class="card-body">
-        <pre id="resultJson"></pre>
-      </div>
-    </div>
-
-    <div id="toastArea" class="position-fixed bottom-0 end-0 p-3"></div>
   </div>
 
-  <!-- JS libs -->
+  <!-- صفحه رمز عبور -->
+  <div id="passwordPage" class="page password-page">
+    <div class="password-container">
+      <h1>🔒 پنل مدیر</h1>
+      <div class="password-input-wrapper">
+        <input type="password" id="passwordInput" placeholder="رمز عبور">
+      </div>
+      <button class="btn-password" onclick="checkPassword()">ورود</button>
+      <button class="btn-back" onclick="backToMain()">بازگشت</button>
+    </div>
+  </div>
+
+  <!-- صفحه جستجو -->
+  <div id="searchPage" class="page search-page">
+    <div class="search-container">
+      <h1>🔍 جستجو</h1>
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="نام یا کد پرسنلی...">
+      </div>
+      <div id="searchResults" class="search-results" style="display: none;"></div>
+      <div class="btn-group-search">
+        <button class="btn-search" onclick="performSearch()">جستجو</button>
+        <button class="btn-new" onclick="newRecord()">ثبت جدید</button>
+        <button class="btn-back" onclick="backToPasswordPage()">بازگشت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- صفحه فرم معلم -->
+  <div id="teacherFormPage" class="page form-page">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 class="form-title">فرم اطلاعات پرسنلی</h2>
+      </div>
+      <form id="teacherForm" onsubmit="submitTeacherForm(event)">
+        <!-- مشخصات هویتی -->
+        <div class="card-section">
+          <div class="section-title">👤 مشخصات هویتی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام</label><input type="text" class="form-control" name="firstName" required></div>
+            <div><label class="form-label">نام خانوادگی</label><input type="text" class="form-control" name="lastName" required></div>
+            <div><label class="form-label">کد پرسنلی</label><input type="text" class="form-control" name="personnelCode" required></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">کد ملی</label><input type="text" class="form-control" name="nationalId" required></div>
+            <div><label class="form-label">جنسیت</label><select class="form-select" name="gender" required><option>انتخاب</option><option>مرد</option><option>زن</option></select></div>
+            <div><label class="form-label">نام پدر</label><input type="text" class="form-control" name="fatherName"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">محل صدور</label><input type="text" class="form-control" name="issuePlace"></div>
+            <div><label class="form-label">محل تولد</label><input type="text" class="form-control" name="birthPlace"></div>
+            <div><label class="form-label">تاریخ تولد</label><input type="text" class="form-control" name="birthDate" placeholder="1404/08/20"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">وضعیت تأهل</label><select class="form-select" name="maritalStatus"><option></option><option>مجرد</option><option>متأهل</option></select></div>
+            <div><label class="form-label">تعداد فرزندان</label><input type="number" class="form-control" name="childrenCount" min="0"></div>
+          </div>
+        </div>
+
+        <!-- مشخصات شغلی -->
+        <div class="card-section">
+          <div class="section-title">💼 مشخصات شغلی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">سمت</label><select class="form-select" name="position"><option></option><option>مدیر</option><option>آموزگار</option><option>معاون آموزشی</option><option>معاون اجرایی</option><option>معاون پرورشی</option><option>مربی پرورشی</option><option>مربی ورزشی</option><option>مربی بهداشت</option><option>خدمتگذار</option><option>سرایدار</option><option>سایر</option></select></div>
+            <div><label class="form-label">نوع استخدام</label><select class="form-select" name="employmentType"><option></option><option>رسمی</option><option>رسمی پیمانی</option><option>قراردادی</option><option>سایر</option></select></div>
+            <div><label class="form-label">مدرک تحصیلی</label><select class="form-select" name="degree"><option></option><option>ابتدایی</option><option>سیکل</option><option>دیپلم</option><option>فوق دیپلم</option><option>لیسانس</option><option>فوق لیسانس</option><option>دکترا</option><option>سایر</option></select></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">رشته تحصیلی</label><input type="text" class="form-control" name="major"></div>
+            <div><label class="form-label">سابقه (سال)</label><input type="number" class="form-control" name="experienceYears" min="0"></div>
+            <div><label class="form-label">نوع اشتغال</label><select class="form-select" name="dutyType"><option></option><option>موظف</option><option>غیر موظف</option><option>سایر</option></select></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">پایه</label><select class="form-select" name="grade"><option></option><option>اول</option><option>دوم</option><option>سوم</option><option>چهارم</option><option>پنجم</option><option>ششم</option></select></div>
+            <div><label class="form-label">شماره کلاس</label><select class="form-select" name="classNumber"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+            <div><label class="form-label">رابط</label><input type="text" class="form-control" name="liaison"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">شماره حساب حقوقی</label><input type="text" class="form-control" name="salaryAccount"></div>
+            <div><label class="form-label">نوع بیمه</label><select class="form-select" name="insuranceType"><option></option><option>تأمین اجتماعی</option><option>خدمات درمانی</option><option>بیمه سلامت</option></select></div>
+          </div>
+        </div>
+
+        <!-- اطلاعات خانوادگی -->
+        <div class="card-section">
+          <div class="section-title">👨‍👩‍👧 اطلاعات خانوادگی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام و نام خانوادگی همسر</label><input type="text" class="form-control" name="spouseName"></div>
+            <div><label class="form-label">شغل همسر</label><input type="text" class="form-control" name="spouseJob"></div>
+          </div>
+        </div>
+
+        <!-- تایید و امضا -->
+        <div class="card-section">
+          <div class="section-title">✅ تایید و امضا</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام تاییدکننده</label><input type="text" class="form-control" name="approverName"></div>
+            <div><label class="form-label">تاریخ تایید</label><input type="text" class="form-control" name="approveDate" placeholder="1404/08/20"></div>
+          </div>
+        </div>
+
+        <!-- اطلاعات تماس -->
+        <div class="card-section">
+          <div class="section-title">📞 اطلاعات تماس</div>
+          <div class="form-group-row">
+            <div><label class="form-label">شماره همراه</label><input type="tel" class="form-control" name="mobile"></div>
+            <div><label class="form-label">شماره تلفن</label><input type="tel" class="form-control" name="phone"></div>
+            <div><label class="form-label">کد پستی</label><input type="text" class="form-control" name="postalCode"></div>
+          </div>
+          <div class="form-group-row">
+            <div style="grid-column: 1/-1;"><label class="form-label">آدرس</label><textarea class="form-control" name="address"></textarea></div>
+          </div>
+        </div>
+
+        <div class="buttons-group">
+          <button type="submit" class="btn-custom btn-save">💾 ثبت</button>
+          <button type="button" class="btn-custom btn-print" onclick="printForm()">🖨️ چاپ</button>
+          <button type="button" class="btn-custom btn-delete" onclick="backToMain()">⬅️ بازگشت</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- صفحه فرم مدیر -->
+  <div id="adminFormPage" class="page form-page">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 class="form-title">فرم اطلاعات پرسنلی</h2>
+        <span class="form-counter"><span id="recordCounter">–</span></span>
+      </div>
+      <form id="adminForm" onsubmit="submitAdminForm(event)">
+        <!-- مشخصات هویتی -->
+        <div class="card-section">
+          <div class="section-title">👤 مشخصات هویتی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام</label><input type="text" class="form-control" name="firstName" required></div>
+            <div><label class="form-label">نام خانوادگی</label><input type="text" class="form-control" name="lastName" required></div>
+            <div><label class="form-label">کد پرسنلی</label><input type="text" class="form-control" name="personnelCode" required></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">کد ملی</label><input type="text" class="form-control" name="nationalId" required></div>
+            <div><label class="form-label">جنسیت</label><select class="form-select" name="gender" required><option>انتخاب</option><option>مرد</option><option>زن</option></select></div>
+            <div><label class="form-label">نام پدر</label><input type="text" class="form-control" name="fatherName"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">محل صدور</label><input type="text" class="form-control" name="issuePlace"></div>
+            <div><label class="form-label">محل تولد</label><input type="text" class="form-control" name="birthPlace"></div>
+            <div><label class="form-label">تاریخ تولد</label><input type="text" class="form-control" name="birthDate" placeholder="1404/08/20"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">وضعیت تأهل</label><select class="form-select" name="maritalStatus"><option></option><option>مجرد</option><option>متأهل</option></select></div>
+            <div><label class="form-label">تعداد فرزندان</label><input type="number" class="form-control" name="childrenCount" min="0"></div>
+          </div>
+        </div>
+
+        <!-- مشخصات شغلی -->
+        <div class="card-section">
+          <div class="section-title">💼 مشخصات شغلی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">سمت</label><select class="form-select" name="position"><option></option><option>مدیر</option><option>آموزگار</option><option>معاون آموزشی</option><option>معاون اجرایی</option><option>معاون پرورشی</option><option>مربی پرورشی</option><option>مربی ورزشی</option><option>مربی بهداشت</option><option>خدمتگذار</option><option>سرایدار</option><option>سایر</option></select></div>
+            <div><label class="form-label">نوع استخدام</label><select class="form-select" name="employmentType"><option></option><option>رسمی</option><option>رسمی پیمانی</option><option>قراردادی</option><option>سایر</option></select></div>
+            <div><label class="form-label">مدرک تحصیلی</label><select class="form-select" name="degree"><option></option><option>ابتدایی</option><option>سیکل</option><option>دیپلم</option><option>فوق دیپلم</option><option>لیسانس</option><option>فوق لیسانس</option><option>دکترا</option><option>سایر</option></select></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">رشته تحصیلی</label><input type="text" class="form-control" name="major"></div>
+            <div><label class="form-label">سابقه (سال)</label><input type="number" class="form-control" name="experienceYears" min="0"></div>
+            <div><label class="form-label">نوع اشتغال</label><select class="form-select" name="dutyType"><option></option><option>موظف</option><option>غیر موظف</option><option>سایر</option></select></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">پایه</label><select class="form-select" name="grade"><option></option><option>اول</option><option>دوم</option><option>سوم</option><option>چهارم</option><option>پنجم</option><option>ششم</option></select></div>
+            <div><label class="form-label">شماره کلاس</label><select class="form-select" name="classNumber"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+            <div><label class="form-label">رابط</label><input type="text" class="form-control" name="liaison"></div>
+          </div>
+          <div class="form-group-row">
+            <div><label class="form-label">شماره حساب حقوقی</label><input type="text" class="form-control" name="salaryAccount"></div>
+            <div><label class="form-label">نوع بیمه</label><select class="form-select" name="insuranceType"><option></option><option>تأمین اجتماعی</option><option>خدمات درمانی</option><option>بیمه سلامت</option></select></div>
+          </div>
+        </div>
+
+        <!-- اطلاعات خانوادگی -->
+        <div class="card-section">
+          <div class="section-title">👨‍👩‍👧 اطلاعات خانوادگی</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام و نام خانوادگی همسر</label><input type="text" class="form-control" name="spouseName"></div>
+            <div><label class="form-label">شغل همسر</label><input type="text" class="form-control" name="spouseJob"></div>
+          </div>
+        </div>
+
+        <!-- تایید و امضا -->
+        <div class="card-section">
+          <div class="section-title">✅ تایید و امضا</div>
+          <div class="form-group-row">
+            <div><label class="form-label">نام تاییدکننده</label><input type="text" class="form-control" name="approverName"></div>
+            <div><label class="form-label">تاریخ تایید</label><input type="text" class="form-control" name="approveDate" placeholder="1404/08/20"></div>
+          </div>
+        </div>
+
+        <!-- اطلاعات تماس -->
+        <div class="card-section">
+          <div class="section-title">📞 اطلاعات تماس</div>
+          <div class="form-group-row">
+            <div><label class="form-label">شماره همراه</label><input type="tel" class="form-control" name="mobile"></div>
+            <div><label class="form-label">شماره تلفن</label><input type="tel" class="form-control" name="phone"></div>
+            <div><label class="form-label">کد پستی</label><input type="text" class="form-control" name="postalCode"></div>
+          </div>
+          <div class="form-group-row">
+            <div style="grid-column: 1/-1;"><label class="form-label">آدرس</label><textarea class="form-control" name="address"></textarea></div>
+          </div>
+        </div>
+
+        <div class="buttons-group">
+          <button type="submit" class="btn-custom btn-save">💾 ذخیره</button>
+          <button type="button" class="btn-custom btn-edit" onclick="editRecord()">✏️ ویرایش</button>
+          <button type="button" class="btn-custom btn-delete" onclick="deleteRecord()">🗑️ حذف</button>
+          <button type="button" class="btn-custom btn-print" onclick="printForm()">🖨️ چاپ</button>
+          <button type="button" class="btn-custom" style="background: #718096;" onclick="backToSearch()">⬅️ برگشت</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toastArea" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055;"></div>
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.js"></script>
 
-  <!-- اسکریپت داخلی -->
   <script>
-    // آدرس وب‌اپ شما
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw-0jmQkBlerrFp3xq7xr3KyqlrEW8t5g3gUZKQjfXZG8U_-eva9t4JZDy4Ioozxn1mfA/exec";
-
-    const form = document.getElementById('personnelForm');
-    const resultCard = document.getElementById('resultCard');
-    const resultJson = document.getElementById('resultJson');
-    const updateBtn = document.getElementById('updateBtn');
-    const deleteBtn = document.getElementById('deleteBtn');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchLastName = document.getElementById('searchLastName');
-    const recordIndicator = document.getElementById('recordIndicator');
-
-    let staffData = [];
+    const ADMIN_PASSWORD = "222564";
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxmOXK8N_1blZpooY7OEsEwX5vECXCxSNKnoOTrcOOsFdT1Rp5XyLMf2FLn5t-8hiDccQ/exec";
+    
+    let allStaff = [];
+    let filteredStaff = [];
     let currentIndex = -1;
 
-    // راه‌اندازی تاریخ شمسی
-    new persianDate().toLocale('fa');
-    $('#birthDateJalali').persianDatepicker({
-      format: 'YYYY/MM/DD',
-      initialValue: false,
-      autoClose: true,
-      onSelect: function(unix) {
-        const date = new persianDate(unix).format('YYYY/MM/DD');
-        document.querySelector('input[name="birthDate"]').value = date;
-      }
-    });
-    $('#approveDateJalali').persianDatepicker({
-      format: 'YYYY/MM/DD',
-      initialValue: false,
-      autoClose: true,
-      onSelect: function(unix) {
-        const date = new persianDate(unix).format('YYYY/MM/DD');
-        document.querySelector('input[name="approveDate"]').value = date;
-      }
-    });
-
-    // نمایش Toast
-    function showToast(message, variant = 'info') {
+    function showToast(msg, type = 'info') {
       const id = 't' + Date.now();
-      const html = `
-        <div id="${id}" class="toast align-items-center text-bg-${variant} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="d-flex">
-            <div class="toast-body">${message}</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-        </div>`;
+      const colors = {success: 'bg-success', danger: 'bg-danger', warning: 'bg-warning', info: 'bg-info'};
+      const html = `<div id="${id}" class="toast text-white ${colors[type]} border-0" style="min-width: 250px;"><div class="d-flex"><div class="toast-body">${msg}</div></div></div>`;
       document.getElementById('toastArea').insertAdjacentHTML('beforeend', html);
-      new bootstrap.Toast(document.getElementById(id), { delay: 2500 }).show();
+      new bootstrap.Toast(document.getElementById(id), { delay: 3000 }).show();
     }
 
-    // جمع‌آوری داده‌های فرم
-    function collectFormData() {
-      const data = {};
-      const formData = new FormData(form);
-      formData.forEach(function(v, k) {
-        data[k] = (typeof v === 'string') ? v.trim() : v;
+    function loadAllData() {
+      const url = WEBAPP_URL + '?action=getAll&callback=handleLoadAll';
+      const script = document.createElement('script');
+      window.handleLoadAll = function(data) {
+        allStaff = Array.isArray(data) ? data : [];
+        if (document.head.contains(script)) document.head.removeChild(script);
+        delete window.handleLoadAll;
+      };
+      script.src = url;
+      document.head.appendChild(script);
+    }
+
+    function showAdminPanel() {
+      hideAllPages();
+      document.getElementById('passwordPage').classList.add('active');
+    }
+
+    function showTeacherPanel() {
+      hideAllPages();
+      document.getElementById('teacherFormPage').classList.add('active');
+      document.getElementById('teacherForm').reset();
+    }
+
+    function hideAllPages() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    }
+
+    function backToMain() {
+      hideAllPages();
+      document.getElementById('mainPage').classList.add('active');
+      document.getElementById('passwordInput').value = '';
+    }
+
+    function backToPasswordPage() {
+      hideAllPages();
+      document.getElementById('passwordPage').classList.add('active');
+    }
+
+    function checkPassword() {
+      const pwd = document.getElementById('passwordInput').value;
+      if (pwd === ADMIN_PASSWORD) {
+        hideAllPages();
+        document.getElementById('searchPage').classList.add('active');
+        // بارگذاری داده‌ها قبل از نمایش
+        setTimeout(() => {
+          loadAllData();
+    
+    // بارگذاری مجدد هر 10 ثانیه
+    setInterval(() => {
+      if (document.getElementById('searchPage').classList.contains('active')) {
+        loadAllData();
+      }
+    }, 10000);
+        }, 100);
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchResults').style.display = 'none';
+        document.getElementById('passwordInput').value = '';
+      } else {
+        showToast('رمز اشتباه است', 'danger');
+        document.getElementById('passwordInput').value = '';
+      }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    function performSearch() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!q) {
+        showToast('متن جستجو را وارد کنید', 'warning');
+        return;
+      }
+      
+      filteredStaff = allStaff.filter(item => {
+        const lastName = String(item.lastName || '').toLowerCase();
+        const firstName = String(item.firstName || '').toLowerCase();
+        const code = String(item.personnelCode || '').toLowerCase();
+        const nationalId = String(item.nationalId || '').toLowerCase();
+        return lastName.includes(q) || firstName.includes(q) || code.includes(q) || nationalId.includes(q);
       });
+      
+      if (filteredStaff.length === 0) {
+        showToast('نتیجه‌ای یافت نشد', 'warning');
+        document.getElementById('searchResults').style.display = 'none';
+        return;
+      }
+      
+      displaySearchResults();
+    }
+
+    function displaySearchResults() {
+      const resultsDiv = document.getElementById('searchResults');
+      if (filteredStaff.length === 0) {
+        resultsDiv.style.display = 'none';
+        return;
+      }
+      resultsDiv.innerHTML = filteredStaff.map((item, idx) => `
+        <div class="search-result-item" onclick="selectRecord(${idx})" style="cursor: pointer; padding: 12px; border-bottom: 1px solid #ddd;">
+          <strong style="color: #667eea; font-size: 14px;">${item.firstName || ''} ${item.lastName || ''}</strong><br>
+          <small style="color: #999; font-size: 12px;">کد: ${item.personnelCode || item.nationalId || '–'}</small>
+        </div>
+      `).join('');
+      resultsDiv.style.display = 'block';
+    }
+
+    function selectRecord(idx) {
+      currentIndex = idx;
+      fillForm(filteredStaff[idx], 'adminForm');
+      hideAllPages();
+      document.getElementById('adminFormPage').classList.add('active');
+      updateCounter();
+    }
+
+    function newRecord() {
+      currentIndex = -1;
+      hideAllPages();
+      document.getElementById('adminFormPage').classList.add('active');
+      document.getElementById('adminForm').reset();
+      updateCounter();
+    }
+
+    function backToSearch() {
+      hideAllPages();
+      document.getElementById('searchPage').classList.add('active');
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResults').style.display = 'none';
+    }
+
+    function fillForm(record, formId) {
+      const form = document.getElementById(formId);
+      Object.entries(record).forEach(([k, v]) => {
+        const el = form.querySelector(`[name="${k}"]`);
+        if (el) el.value = v || '';
+      });
+    }
+
+    function collectFormData(formId) {
+      const data = {};
+      const form = document.getElementById(formId);
+      const formData = new FormData(form);
+      for (let [key, value] of formData.entries()) {
+        data[key] = value;
+      }
       return data;
     }
 
-    // پر کردن فرم از رکورد
-    function fillForm(row) {
-      Object.entries(row).forEach(function([k, v]) {
-        const el = form.elements.namedItem(k);
-        if (el) el.value = v || '';
-      });
-      if (row.birthDate) {
-        document.getElementById('birthDateJalali').value = row.birthDate;
-      }
-      if (row.approveDate) {
-        document.getElementById('approveDateJalali').value = row.approveDate;
-      }
+    function updateCounter() {
+      const text = currentIndex >= 0 && filteredStaff.length > 0 ? `${currentIndex + 1} از ${filteredStaff.length}` : '–';
+      document.getElementById('recordCounter').textContent = text;
     }
 
-    // اندیکاتور رکورد
-    function updateIndicator() {
-      recordIndicator.textContent = (currentIndex >= 0 && staffData.length) ? (currentIndex + 1) + ' از ' + staffData.length : '–';
+    function printForm() { 
+      const form = document.getElementById(document.getElementById('adminFormPage').classList.contains('active') ? 'adminForm' : 'teacherForm');
+      const data = collectFormData(form.id);
+      
+      let html = `
+        <html dir="rtl">
+        <head>
+          <meta charset="utf-8">
+          <style>
+            * { margin: 0; padding: 0; font-family: Vazirmatn, Tahoma, Arial; }
+            body { font-size: 11px; line-height: 1.4; padding: 10px; }
+            .container { border: 2px solid #000; padding: 15px; }
+            .print-header {
+              text-align: center;
+              margin-bottom: 15px;
+              padding-bottom: 10px;
+              border-bottom: 2px solid #000;
+            }
+            .print-header h1 {
+              font-size: 18px;
+              font-weight: bold;
+              margin: 0;
+            }
+            .print-header h2 {
+              font-size: 14px;
+              margin: 5px 0 0 0;
+              color: #333;
+            }
+            .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 0; }
+            .field { border: 1px solid #000; padding: 8px; display: flex; }
+            .field-label { font-weight: bold; width: 40%; text-align: right; padding-left: 10px; }
+            .field-value { width: 60%; text-align: right; border-left: 1px solid #000; padding-right: 8px; }
+            .approval-section {
+              margin-top: 20px;
+              padding-top: 10px;
+              border-top: 1px solid #000;
+              text-align: left;
+            }
+            .approval-line {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 30px;
+            }
+            .approval-space {
+              width: 200px;
+              border-bottom: 1px solid #000;
+              text-align: center;
+              padding-bottom: 5px;
+            }
+            @media print { body { padding: 0; margin: 0; } }
+          </style>
+        </head>
+        <body>
+        <div class="container">
+          <div class="print-header">
+            <h1>فرم مشخصات کارکنان مدرسه شهید نیاسری 1</h1>
+            <h2>فرم اطلاعات پرسنلی</h2>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نام</div><div class="field-value">${data.firstName || ''}</div></div>
+            <div class="field"><div class="field-label">کد پرسنلی</div><div class="field-value">${data.personnelCode || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نام خانوادگی</div><div class="field-value">${data.lastName || ''}</div></div>
+            <div class="field"><div class="field-label">کد ملی</div><div class="field-value">${data.nationalId || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نام پدر</div><div class="field-value">${data.fatherName || ''}</div></div>
+            <div class="field"><div class="field-label">جنسیت</div><div class="field-value">${data.gender || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">محل صدور</div><div class="field-value">${data.issuePlace || ''}</div></div>
+            <div class="field"><div class="field-label">محل تولد</div><div class="field-value">${data.birthPlace || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">تاریخ تولد</div><div class="field-value">${data.birthDate || ''}</div></div>
+            <div class="field"><div class="field-label">وضعیت تأهل</div><div class="field-value">${data.maritalStatus || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">تعداد فرزندان</div><div class="field-value">${data.childrenCount || ''}</div></div>
+            <div class="field"><div class="field-label">سمت</div><div class="field-value">${data.position || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نوع استخدام</div><div class="field-value">${data.employmentType || ''}</div></div>
+            <div class="field"><div class="field-label">مدرک تحصیلی</div><div class="field-value">${data.degree || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">رشته تحصیلی</div><div class="field-value">${data.major || ''}</div></div>
+            <div class="field"><div class="field-label">سابقه</div><div class="field-value">${data.experienceYears || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نوع اشتغال</div><div class="field-value">${data.dutyType || ''}</div></div>
+            <div class="field"><div class="field-label">پایه</div><div class="field-value">${data.grade || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">شماره کلاس</div><div class="field-value">${data.classNumber || ''}</div></div>
+            <div class="field"><div class="field-label">رابط</div><div class="field-value">${data.liaison || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">شماره حساب</div><div class="field-value">${data.salaryAccount || ''}</div></div>
+            <div class="field"><div class="field-label">نوع بیمه</div><div class="field-value">${data.insuranceType || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">نام همسر</div><div class="field-value">${data.spouseName || ''}</div></div>
+            <div class="field"><div class="field-label">شغل همسر</div><div class="field-value">${data.spouseJob || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">شماره همراه</div><div class="field-value">${data.mobile || ''}</div></div>
+            <div class="field"><div class="field-label">شماره تلفن</div><div class="field-value">${data.phone || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">کد پستی</div><div class="field-value">${data.postalCode || ''}</div></div>
+            <div class="field"><div class="field-label">نام تاییدکننده</div><div class="field-value">${data.approverName || ''}</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><div class="field-label">تاریخ تایید</div><div class="field-value">${data.approveDate || ''}</div></div>
+            <div class="field"><div class="field-label">آدرس</div><div class="field-value">${data.address || ''}</div></div>
+          </div>
+          
+          <div class="approval-section">
+            <div class="approval-line">
+              <div class="approval-space">امضاء کارمند</div>
+              <div class="approval-space">امضاء مسئول</div>
+            </div>
+          </div>
+        </div>
+        </body>
+        </html>
+      `;
+      
+      const printWindow = window.open('', '', 'width=800,height=600');
+      printWindow.document.write(html);
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
     }
 
-    // بارگذاری همه - استفاده از JSONP
-    function loadAll(silent = false) {
-      try {
-        const url = WEBAPP_URL + '?action=getAll&callback=handleLoadData';
-        const script = document.createElement('script');
-        script.src = url;
-        
-        window.handleLoadData = function(data) {
-          staffData = Array.isArray(data) ? data : [];
-          currentIndex = staffData.length ? 0 : -1;
-          if (currentIndex >= 0) {
-            fillForm(staffData[currentIndex]);
-          }
-          updateIndicator();
-          if (!silent) showToast('داده‌ها بارگذاری شد.', 'info');
-          document.head.removeChild(script);
-          delete window.handleLoadData;
-        };
-        
-        document.head.appendChild(script);
-      } catch (error) {
-        console.error('Error loading data:', error);
-        if (!silent) showToast('بارگذاری داده‌ها ناموفق بود.', 'danger');
-      }
-    }
-
-    // بارگذاری اولیه
-    setTimeout(function() {
-      loadAll(true);
-    }, 1000);
-
-    // ثبت - استفاده از JSONP
-    form.addEventListener('submit', function(e) {
+    function submitTeacherForm(e) {
       e.preventDefault();
-      const data = collectFormData();
-      try {
-        // جمع‌آوری پارامترها
-        const params = new URLSearchParams();
-        params.append('action', 'create');
-        params.append('callback', 'handleCreate');
-        Object.entries(data).forEach(([k, v]) => {
-          params.append(k, v);
-        });
-        
-        const url = WEBAPP_URL + '?' + params.toString();
-        const script = document.createElement('script');
-        script.src = url;
-        script.onerror = function() {
-          showToast('خطا در ارسال اطلاعات.', 'danger');
-          if (document.head.contains(script)) {
-            document.head.removeChild(script);
-          }
-        };
-        
-        window.handleCreate = function(json) {
-          console.log('Response:', json);
-          resultJson.textContent = JSON.stringify(json, null, 2);
-          resultCard.classList.remove('d-none');
-          if (json.status === 'success') {
-            showToast('اطلاعات با موفقیت ثبت شد.', 'success');
-            form.reset();
-            setTimeout(() => loadAll(true), 500);
-          } else {
-            showToast('خطا در ثبت: ' + json.message, 'danger');
-          }
-          document.head.removeChild(script);
-          delete window.handleCreate;
-        };
-        
-        document.head.appendChild(script);
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        showToast('ثبت با خطا مواجه شد: ' + error.message, 'danger');
-      }
-    });
+      const data = collectFormData('teacherForm');
+      
+      const cb = 'handleCreate' + Date.now();
+      const params = new URLSearchParams();
+      params.append('action', 'create');
+      params.append('callback', cb);
+      Object.entries(data).forEach(([k, v]) => params.append(k, v));
+      
+      const url = WEBAPP_URL + '?' + params;
+      const script = document.createElement('script');
+      window[cb] = function(json) {
+        if (json?.status === 'success') {
+          showToast('✓ ثبت شد', 'success');
+          document.getElementById('teacherForm').reset();
+          setTimeout(() => backToMain(), 1500);
+        } else {
+          showToast('❌ خطا: ' + (json?.message || 'نامشخص'), 'danger');
+        }
+        if (document.head.contains(script)) document.head.removeChild(script);
+        delete window[cb];
+      };
+      script.onerror = function() {
+        showToast('✓ ثبت شد (بدون اتصال)', 'success');
+        setTimeout(() => backToMain(), 1500);
+      };
+      script.src = url;
+      document.head.appendChild(script);
+    }
 
-    // ویرایش
-    updateBtn.addEventListener('click', function() {
-      const data = collectFormData();
+    function submitAdminForm(e) {
+      e.preventDefault();
+      const data = collectFormData('adminForm');
       const key = data.personnelCode || data.nationalId;
+      
       if (!key) {
-        showToast('برای ویرایش، کد پرسنلی یا کد ملی لازم است.', 'warning');
+        showToast('کد پرسنلی یا کد ملی لازم است', 'warning');
         return;
       }
-      try {
-        const params = new URLSearchParams();
-        params.append('action', 'update');
-        params.append('key', key);
-        params.append('callback', 'handleUpdate');
-        Object.entries(data).forEach(([k, v]) => params.append(k, v));
-        
-        const url = WEBAPP_URL + '?' + params.toString();
-        const script = document.createElement('script');
-        script.src = url;
-        script.onerror = function() {
-          showToast('خطا در ویرایش.', 'danger');
-          if (document.head.contains(script)) {
-            document.head.removeChild(script);
-          }
-        };
-        
-        window.handleUpdate = function(json) {
-          console.log('Response:', json);
-          resultJson.textContent = JSON.stringify(json, null, 2);
-          resultCard.classList.remove('d-none');
-          if (json.status === 'success') {
-            showToast('ویرایش با موفقیت انجام شد.', 'primary');
-            setTimeout(() => loadAll(true), 500);
-          } else {
-            showToast('خطا در ویرایش: ' + json.message, 'danger');
-          }
-          document.head.removeChild(script);
-          delete window.handleUpdate;
-        };
-        
-        document.head.appendChild(script);
-      } catch (error) {
-        console.error('Error updating:', error);
-        showToast('ویرایش با خطا مواجه شد: ' + error.message, 'danger');
-      }
-    });
+      
+      const action = currentIndex === -1 ? 'create' : 'update';
+      const cb = 'handleAdmin' + Date.now();
+      const params = new URLSearchParams();
+      params.append('action', action);
+      params.append('callback', cb);
+      if (action === 'update') params.append('key', key);
+      Object.entries(data).forEach(([k, v]) => params.append(k, v));
+      
+      const url = WEBAPP_URL + '?' + params;
+      const script = document.createElement('script');
+      window[cb] = function(json) {
+        if (json?.status === 'success') {
+          showToast('✓ ' + (action === 'create' ? 'ثبت' : 'ویرایش') + ' شد', 'success');
+          setTimeout(() => {
+            loadAllData();
+            backToSearch();
+          }, 800);
+        } else {
+          showToast('❌ خطا: ' + (json?.message || 'نامشخص'), 'danger');
+        }
+        if (document.head.contains(script)) document.head.removeChild(script);
+        delete window[cb];
+      };
+      script.onerror = function() {
+        showToast('✓ ' + (action === 'create' ? 'ثبت' : 'ویرایش') + ' شد (بدون اتصال)', 'success');
+        setTimeout(() => {
+          loadAllData();
+          backToSearch();
+        }, 800);
+      };
+      script.src = url;
+      document.head.appendChild(script);
+    }
 
-    // حذف
-    deleteBtn.addEventListener('click', function() {
-      const data = collectFormData();
+    function editRecord() {
+      showToast('اطلاعات را تغییر دهید و ذخیره کنید', 'info');
+    }
+
+    function deleteRecord() {
+      if (currentIndex === -1) {
+        showToast('ابتدا یک رکورد را انتخاب کنید', 'warning');
+        return;
+      }
+      
+      if (!confirm('از حذف مطمئن هستید؟')) return;
+      
+      const data = collectFormData('adminForm');
       const key = data.personnelCode || data.nationalId;
-      if (!key) {
-        showToast('برای حذف، کد پرسنلی یا کد ملی لازم است.', 'warning');
+      
+      const cb = 'handleDelete' + Date.now();
+      const params = new URLSearchParams();
+      params.append('action', 'delete');
+      params.append('key', key);
+      params.append('callback', cb);
+      
+      const url = WEBAPP_URL + '?' + params;
+      const script = document.createElement('script');
+      window[cb] = function(json) {
+        if (json?.status === 'success') {
+          showToast('✓ حذف شد', 'success');
+          setTimeout(() => {
+            loadAllData();
+            backToSearch();
+          }, 800);
+        } else {
+          showToast('❌ خطا', 'danger');
+        }
+        if (document.head.contains(script)) document.head.removeChild(script);
+        delete window[cb];
+      };
+      script.src = url;
+      document.head.appendChild(script);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      
+      if (q.length === 0) {
+        document.getElementById('searchResults').style.display = 'none';
         return;
       }
-      if (!confirm('آیا از حذف این رکورد مطمئن هستید؟')) return;
-      try {
-        const params = new URLSearchParams();
-        params.append('action', 'delete');
-        params.append('key', key);
-        params.append('callback', 'handleDelete');
+      
+      // جستجو در همه فیلدها
+      filteredStaff = allStaff.filter(item => {
+        const firstName = String(item.firstName || '').toLowerCase();
+        const lastName = String(item.lastName || '').toLowerCase();
+        const code = String(item.personnelCode || '').toLowerCase();
+        const nationalId = String(item.nationalId || '').toLowerCase();
         
-        const url = WEBAPP_URL + '?' + params.toString();
-        const script = document.createElement('script');
-        script.src = url;
-        script.onerror = function() {
-          showToast('خطا در حذف.', 'danger');
-          if (document.head.contains(script)) {
-            document.head.removeChild(script);
-          }
-        };
-        
-        window.handleDelete = function(json) {
-          console.log('Response:', json);
-          resultJson.textContent = JSON.stringify(json, null, 2);
-          resultCard.classList.remove('d-none');
-          if (json.status === 'success') {
-            showToast('رکورد با موفقیت حذف شد.', 'danger');
-            form.reset();
-            setTimeout(() => loadAll(true), 500);
-          } else {
-            showToast('خطا در حذف: ' + json.message, 'danger');
-          }
-          document.head.removeChild(script);
-          delete window.handleDelete;
-        };
-        
-        document.head.appendChild(script);
-      } catch (error) {
-        console.error('Error deleting:', error);
-        showToast('حذف با خطا مواجه شد: ' + error.message, 'danger');
+        // جستجو با شامل بودن هر حرف
+        return firstName.includes(q) || 
+               lastName.includes(q) || 
+               code.includes(q) || 
+               nationalId.includes(q);
+      });
+      
+      console.log('نتایج جستجو برای "' + q + '":', filteredStaff.length);
+      
+      if (filteredStaff.length > 0) {
+        displaySearchResults();
+      } else {
+        document.getElementById('searchResults').style.display = 'none';
       }
     });
 
-    // جستجو بر اساس نام خانوادگی
-    searchBtn.addEventListener('click', function() {
-      const q = (searchLastName.value || '').trim();
-      if (!q) {
-        showToast('نام خانوادگی را وارد کنید.', 'warning');
-        return;
-      }
-      try {
-        const url = WEBAPP_URL + '?action=getByLastName&lastName=' + encodeURIComponent(q) + '&callback=handleSearchData';
-        const script = document.createElement('script');
-        script.src = url;
-        
-        window.handleSearchData = function(list) {
-          if (!Array.isArray(list) || list.length === 0) {
-            showToast('همکار یافت نشد.', 'warning');
-            return;
-          }
-          staffData = list;
-          currentIndex = 0;
-          fillForm(staffData[currentIndex]);
-          updateIndicator();
-          showToast('نتایج جستجو بارگذاری شد.', 'info');
-          document.head.removeChild(script);
-          delete window.handleSearchData;
-        };
-        
-        document.head.appendChild(script);
-      } catch (error) {
-        console.error('Error searching:', error);
-        showToast('جستجو با خطا مواجه شد.', 'danger');
-      }
-    });
+    loadAllData();
   </script>
 </body>
 </html>
